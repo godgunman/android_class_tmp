@@ -3,7 +3,11 @@ package com.example.push;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.util.Log;
@@ -60,7 +64,17 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String id = (String) spinner.getSelectedItem();
+				JSONObject data = new JSONObject();
+				try {
+					data.put("action", "com.example.UPDATE_STATUS");
+					data.put("devicde_id", getDeviceId());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				ParsePush push = new ParsePush();
+				push.setData(data);
 				push.setChannel("device_id" + id);
 				push.setMessage(editText.getText().toString());
 				push.sendInBackground();
@@ -68,6 +82,10 @@ public class MainActivity extends Activity {
 		});
 		textView.setText(getDeviceId());
 		setDeviceId();
+
+//		Intent intent = new Intent();
+//		intent.setAction("com.example.UPDATE_STATUS");
+//		sendBroadcast(intent);
 	}
 
 	private String getDeviceId() {
