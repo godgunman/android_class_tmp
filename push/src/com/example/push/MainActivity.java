@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -94,6 +95,15 @@ public class MainActivity extends Activity {
 		ParseObject object = new ParseObject("info");
 		object.put("device_id", getDeviceId());
 		object.saveInBackground();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_refresh) {
+			setDeviceId();
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
