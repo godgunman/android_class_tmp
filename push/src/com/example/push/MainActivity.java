@@ -81,7 +81,8 @@ public class MainActivity extends Activity {
 			public void done(List<ParseObject> objects, ParseException e) {
 				List<String> ids = new ArrayList<String>();
 				for (ParseObject obj : objects) {
-					ids.add(obj.getString("device_id"));
+					if (obj.getString("device_id") != null)
+						ids.add(obj.getString("device_id"));
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
