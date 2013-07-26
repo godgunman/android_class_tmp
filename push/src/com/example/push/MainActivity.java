@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,13 +58,15 @@ public class MainActivity extends Activity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				String id = (String) spinner.getSelectedItem();
 				ParsePush push = new ParsePush();
-				push.setChannel("all");
+				push.setChannel("device_id" + id);
 				push.setMessage(editText.getText().toString());
 				push.sendInBackground();
 			}
 		});
 		textView.setText(getDeviceId());
+		setDeviceId();
 	}
 
 	private String getDeviceId() {
@@ -81,7 +84,7 @@ public class MainActivity extends Activity {
 				}
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
-						android.R.layout.simple_spinner_dropdown_item, ids);
+						android.R.layout.simple_spinner_item, ids);
 				spinner.setAdapter(adapter);
 			}
 		});
