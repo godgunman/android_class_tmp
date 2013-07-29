@@ -21,6 +21,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -42,6 +45,7 @@ public class MainActivity extends Activity {
 	private Button button;
 	private TextView textView;
 	private Spinner spinner;
+	private CheckBox checkBox;
 	public static LinearLayout linearLayout;
 
 	@Override
@@ -67,6 +71,7 @@ public class MainActivity extends Activity {
 		spinner = (Spinner) findViewById(R.id.spinner1);
 		textView = (TextView) findViewById(R.id.textView1);
 		editText = (EditText) findViewById(R.id.editText1);
+		checkBox = (CheckBox) findViewById(R.id.checkBox1);
 		linearLayout = (LinearLayout) findViewById(R.id.messagesLinearLayout);
 		button = (Button) findViewById(R.id.button1);
 
@@ -86,11 +91,24 @@ public class MainActivity extends Activity {
 
 				ParsePush push = new ParsePush();
 				push.setData(data);
-				push.setChannel("device_id" + id);
+				if (checkBox.isChecked())
+					push.setChannel("all");
+				else
+					push.setChannel("device_id" + id);
 				// push.setMessage(editText.getText().toString());
 				push.sendInBackground();
 			}
 		});
+
+		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				spinner.setEnabled(!isChecked);
+			}
+		});
+
 		textView.setText(getDeviceId());
 		setDeviceId();
 
@@ -108,7 +126,7 @@ public class MainActivity extends Activity {
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> objects, ParseException e) {
-				
+
 				Set<String> idSet = new HashSet<String>();
 				for (ParseObject obj : objects) {
 					if (obj.getString("device_id") != null) {
