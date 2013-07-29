@@ -2,9 +2,9 @@ package com.example.push;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.ParseException;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,7 +24,7 @@ public class LoginActivity extends Activity {
 	private EditText accountEditText;
 	private EditText passwordEditText;
 	private Button signupButton;
-	private Button signinButton;
+	private Button loginButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +38,17 @@ public class LoginActivity extends Activity {
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 		ParseAnalytics.trackAppOpened(getIntent());
 
-		accountEditText = (EditText) findViewById(R.id.editText1);
-		passwordEditText = (EditText) findViewById(R.id.editText2);
-		signinButton = (Button) findViewById(R.id.button1);
-		signupButton = (Button) findViewById(R.id.button2);
+		accountEditText = (EditText) findViewById(R.id.accountEditText);
+		passwordEditText = (EditText) findViewById(R.id.passwordEditText);
+		loginButton = (Button) findViewById(R.id.loginButton);
+		signupButton = (Button) findViewById(R.id.signupButton);
 
-		signinButton.setOnClickListener(new OnClickListener() {
+		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String account = accountEditText.getText().toString();
 				String passwrod = passwordEditText.getText().toString();
+				Log.d("debug", "login:"+account);
 
 				ParseUser.logInInBackground(account, passwrod,
 						new LogInCallback() {
@@ -55,7 +56,6 @@ public class LoginActivity extends Activity {
 							public void done(ParseUser user,
 									com.parse.ParseException e) {
 								if (user != null && e == null) {
-									register(user);
 									goToMainActivity();
 								}
 								if (e != null) {
@@ -69,9 +69,10 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
 				String account = accountEditText.getText().toString();
 				String passwrod = passwordEditText.getText().toString();
+				
+				Log.d("debug", "signup:"+account);
 
 				final ParseUser user = new ParseUser();
 				user.setUsername(account);
@@ -81,7 +82,6 @@ public class LoginActivity extends Activity {
 					@Override
 					public void done(com.parse.ParseException e) {
 						if (e == null) {
-							register(user);
 							goToMainActivity();
 						} else {
 							e.printStackTrace();
@@ -98,16 +98,4 @@ public class LoginActivity extends Activity {
 		startActivity(intent);
 	}
 
-	private String getDeviceId() {
-		return Secure.getString(getContentResolver(), Secure.ANDROID_ID);
-	}
-
-	private void register(ParseUser user) {
-//		ParseObject object = new ParseObject("info");
-//		object.put("device_id", getDeviceId());
-//		object.put("user", user);
-//		object.saveInBackground();
-		user.put("device_id", getDeviceId());
-		user.saveInBackground();
-	}
 }

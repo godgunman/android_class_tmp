@@ -1,21 +1,14 @@
 package com.example.push;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,19 +24,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
-import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class MainActivity extends Activity {
-
-	private List<ParseUser> userList;
 
 	private EditText editText;
 	private Button button;
@@ -67,10 +54,10 @@ public class MainActivity extends Activity {
 
 		spinner = (Spinner) findViewById(R.id.spinner1);
 		textView = (TextView) findViewById(R.id.textView1);
-		editText = (EditText) findViewById(R.id.editText1);
+		editText = (EditText) findViewById(R.id.accountEditText);
 		checkBox = (CheckBox) findViewById(R.id.checkBox1);
 		linearLayout = (LinearLayout) findViewById(R.id.messagesLinearLayout);
-		button = (Button) findViewById(R.id.button1);
+		button = (Button) findViewById(R.id.loginButton);
 
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -111,10 +98,6 @@ public class MainActivity extends Activity {
 		textView.setText(String.format("Hi, %s (%s)", user.getUsername(),
 				getDeviceId()));
 		setUserList();
-
-		// Intent intent = new Intent();
-		// intent.setAction("com.example.UPDATE_STATUS");
-		// sendBroadcast(intent);
 	}
 
 	private String getDeviceId() {
@@ -127,7 +110,6 @@ public class MainActivity extends Activity {
 		query.findInBackground(new FindCallback<ParseUser>() {
 			@Override
 			public void done(List<ParseUser> users, ParseException e) {
-				userList = users;
 				List<String> data = new ArrayList<String>();
 				for (ParseUser user : users) {
 					data.add(user.getUsername());
