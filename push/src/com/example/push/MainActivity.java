@@ -43,11 +43,15 @@ import com.parse.PushService;
 
 public class MainActivity extends Activity {
 
+	private List<ParseUser> userList;
+
 	private EditText editText;
 	private Button button;
 	private TextView textView;
 	private Spinner spinner;
 	private CheckBox checkBox;
+	private String currentUserName;
+	
 	public static LinearLayout linearLayout;
 
 	@Override
@@ -55,8 +59,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		currentUserName = ParseUser.getCurrentUser().getUsername();
+		
 		PushService.subscribe(this, "all", MainActivity.class);
-		PushService.subscribe(this, "device_id" + getDeviceId(),
+		PushService.subscribe(this, currentUserName,
 				MainActivity.class);
 
 		spinner = (Spinner) findViewById(R.id.spinner1);
@@ -69,11 +75,12 @@ public class MainActivity extends Activity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String id = (String) spinner.getSelectedItem();
+				String user = (String) spinner.getSelectedItem();
+
 				JSONObject data = new JSONObject();
 				try {
 					data.put("action", "com.example.UPDATE_STATUS");
-					data.put("device_id", getDeviceId());
+					data.put("sender", currentUserName);
 					data.put("alert", editText.getText().toString());
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
@@ -85,8 +92,7 @@ public class MainActivity extends Activity {
 				if (checkBox.isChecked())
 					push.setChannel("all");
 				else
-					push.setChannel("device_id" + id);
-				// push.setMessage(editText.getText().toString());
+					push.setChannel(user);
 				push.sendInBackground();
 			}
 		});
@@ -104,7 +110,7 @@ public class MainActivity extends Activity {
 
 		textView.setText(String.format("Hi, %s (%s)", user.getUsername(),
 				getDeviceId()));
-		setDeviceId();
+		setUserList();
 
 		// Intent intent = new Intent();
 		// intent.setAction("com.example.UPDATE_STATUS");
@@ -115,13 +121,13 @@ public class MainActivity extends Activity {
 		return Secure.getString(getContentResolver(), Secure.ANDROID_ID);
 	}
 
-	private void setDeviceId() {
-		
+	private void setUserList() {
+
 		ParseQuery<ParseUser> query = ParseUser.getQuery();
 		query.findInBackground(new FindCallback<ParseUser>() {
 			@Override
 			public void done(List<ParseUser> users, ParseException e) {
-
+				userList = users;
 				List<String> data = new ArrayList<String>();
 				for (ParseUser user : users) {
 					data.add(user.getUsername());
@@ -138,7 +144,7 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_refresh) {
-			setDeviceId();
+			setUserList();
 		}
 
 		return super.onOptionsItemSelected(item);
