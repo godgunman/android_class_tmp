@@ -38,6 +38,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.PushService;
 
 public class MainActivity extends Activity {
@@ -53,15 +54,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		Parse.initialize(this, "6GIweBfY6S45aUHHhzAkw4cgo6Cb7PlvUyYYwJFs",
-				"nEFIK6PmEiidO3qnyvPa04WCi9rJCECOvN8qg5vf");
-		// Parse.initialize(this, "hCJ3YM593qsoFGt3CNVa0XRECus3Vbrz56HdyUvD",
-		// "WRUIsQkcyj0fgv8inoF6hSeo0rftbr2WTKPWLE09");
-
-		PushService.setDefaultPushCallback(this, MainActivity.class);
-		ParseInstallation.getCurrentInstallation().saveInBackground();
-		ParseAnalytics.trackAppOpened(getIntent());
 
 		register();
 
@@ -110,7 +102,10 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		textView.setText(getDeviceId());
+		ParseUser user = ParseUser.getCurrentUser();
+
+		textView.setText(String.format("Hi, %s (%s)", user.getUsername(),
+				getDeviceId()));
 		setDeviceId();
 
 		// Intent intent = new Intent();
@@ -135,7 +130,7 @@ public class MainActivity extends Activity {
 					}
 				}
 				List<String> ids = new ArrayList<String>(idSet);
-				
+
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
 						android.R.layout.simple_spinner_item, ids);
