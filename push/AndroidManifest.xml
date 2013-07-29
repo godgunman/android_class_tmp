@@ -29,13 +29,14 @@
         </activity>
 
         <service android:name="com.parse.PushService" />
-
+        <!--
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        -->
         <receiver android:name="com.example.push.MyPushReceiver" >
             <intent-filter>
                 <action android:name="com.example.UPDATE_STATUS" />

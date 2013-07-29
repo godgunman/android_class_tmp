@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.TextView;
 
 public class MyPushReceiver extends BroadcastReceiver {
 
@@ -31,6 +32,14 @@ public class MyPushReceiver extends BroadcastReceiver {
 				String key = (String) itr.next();
 				Log.d(TAG, "..." + key + " => " + json.getString(key));
 			}
+			if (json.has("alert") && json.has("device_id")) {
+				TextView textView = new TextView(context);
+				String alert = json.getString("alert");
+				String did = json.getString("device_id");
+				textView.setText("text:" + alert + " device_id:" + did);
+				MainActivity.linearLayout.addView(textView);
+			}
+
 		} catch (JSONException e) {
 			Log.d(TAG, "JSONException: " + e.getMessage());
 		}

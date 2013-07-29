@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,14 +38,18 @@ public class MainActivity extends Activity {
 	private Button button;
 	private TextView textView;
 	private Spinner spinner;
+	public static LinearLayout linearLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		Parse.initialize(this, "6GIweBfY6S45aUHHhzAkw4cgo6Cb7PlvUyYYwJFs",
-				"nEFIK6PmEiidO3qnyvPa04WCi9rJCECOvN8qg5vf");
+		 Parse.initialize(this, "6GIweBfY6S45aUHHhzAkw4cgo6Cb7PlvUyYYwJFs",
+		 "nEFIK6PmEiidO3qnyvPa04WCi9rJCECOvN8qg5vf");
+		// Parse.initialize(this, "hCJ3YM593qsoFGt3CNVa0XRECus3Vbrz56HdyUvD",
+		// "WRUIsQkcyj0fgv8inoF6hSeo0rftbr2WTKPWLE09");
+
 		PushService.setDefaultPushCallback(this, MainActivity.class);
 		ParseInstallation.getCurrentInstallation().saveInBackground();
 		ParseAnalytics.trackAppOpened(getIntent());
@@ -58,6 +63,7 @@ public class MainActivity extends Activity {
 		spinner = (Spinner) findViewById(R.id.spinner1);
 		textView = (TextView) findViewById(R.id.textView1);
 		editText = (EditText) findViewById(R.id.editText1);
+		linearLayout = (LinearLayout) findViewById(R.id.messagesLinearLayout);
 		button = (Button) findViewById(R.id.button1);
 
 		button.setOnClickListener(new OnClickListener() {
@@ -67,7 +73,8 @@ public class MainActivity extends Activity {
 				JSONObject data = new JSONObject();
 				try {
 					data.put("action", "com.example.UPDATE_STATUS");
-					data.put("devicde_id", getDeviceId());
+					data.put("device_id", getDeviceId());
+					data.put("alert", editText.getText().toString());
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -76,16 +83,16 @@ public class MainActivity extends Activity {
 				ParsePush push = new ParsePush();
 				push.setData(data);
 				push.setChannel("device_id" + id);
-				push.setMessage(editText.getText().toString());
+//				push.setMessage(editText.getText().toString());
 				push.sendInBackground();
 			}
 		});
 		textView.setText(getDeviceId());
 		setDeviceId();
 
-//		Intent intent = new Intent();
-//		intent.setAction("com.example.UPDATE_STATUS");
-//		sendBroadcast(intent);
+		// Intent intent = new Intent();
+		// intent.setAction("com.example.UPDATE_STATUS");
+		// sendBroadcast(intent);
 	}
 
 	private String getDeviceId() {
