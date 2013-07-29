@@ -1,7 +1,11 @@
 package com.example.push;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +49,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		 Parse.initialize(this, "6GIweBfY6S45aUHHhzAkw4cgo6Cb7PlvUyYYwJFs",
-		 "nEFIK6PmEiidO3qnyvPa04WCi9rJCECOvN8qg5vf");
+		Parse.initialize(this, "6GIweBfY6S45aUHHhzAkw4cgo6Cb7PlvUyYYwJFs",
+				"nEFIK6PmEiidO3qnyvPa04WCi9rJCECOvN8qg5vf");
 		// Parse.initialize(this, "hCJ3YM593qsoFGt3CNVa0XRECus3Vbrz56HdyUvD",
 		// "WRUIsQkcyj0fgv8inoF6hSeo0rftbr2WTKPWLE09");
 
@@ -83,7 +87,7 @@ public class MainActivity extends Activity {
 				ParsePush push = new ParsePush();
 				push.setData(data);
 				push.setChannel("device_id" + id);
-//				push.setMessage(editText.getText().toString());
+				// push.setMessage(editText.getText().toString());
 				push.sendInBackground();
 			}
 		});
@@ -104,11 +108,18 @@ public class MainActivity extends Activity {
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> objects, ParseException e) {
-				List<String> ids = new ArrayList<String>();
+				
+				Set<String> idSet = new HashSet<String>();
 				for (ParseObject obj : objects) {
-					if (obj.getString("device_id") != null)
-						ids.add(obj.getString("device_id"));
+					if (obj.getString("device_id") != null) {
+						idSet.add(obj.getString("device_id"));
+					}
 				}
+				List<String> ids = new ArrayList<String>();
+				for (String id : idSet) {
+					ids.add(id);
+				}
+
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
 						android.R.layout.simple_spinner_item, ids);
