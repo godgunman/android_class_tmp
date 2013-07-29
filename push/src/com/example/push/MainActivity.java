@@ -1,6 +1,7 @@
 package com.example.push;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -133,11 +134,8 @@ public class MainActivity extends Activity {
 						idSet.add(obj.getString("device_id"));
 					}
 				}
-				List<String> ids = new ArrayList<String>();
-				for (String id : idSet) {
-					ids.add(id);
-				}
-
+				List<String> ids = new ArrayList<String>(idSet);
+				
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
 						android.R.layout.simple_spinner_item, ids);
