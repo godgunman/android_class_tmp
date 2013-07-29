@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.ParseException;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.PushService;
 import com.parse.SignUpCallback;
@@ -53,6 +55,7 @@ public class LoginActivity extends Activity {
 							public void done(ParseUser user,
 									com.parse.ParseException e) {
 								if (user != null && e == null) {
+									register(user);
 									goToMainActivity();
 								}
 								if (e != null) {
@@ -70,7 +73,7 @@ public class LoginActivity extends Activity {
 				String account = accountEditText.getText().toString();
 				String passwrod = passwordEditText.getText().toString();
 
-				ParseUser user = new ParseUser();
+				final ParseUser user = new ParseUser();
 				user.setUsername(account);
 				user.setPassword(passwrod);
 
@@ -78,6 +81,7 @@ public class LoginActivity extends Activity {
 					@Override
 					public void done(com.parse.ParseException e) {
 						if (e == null) {
+							register(user);
 							goToMainActivity();
 						} else {
 							e.printStackTrace();
@@ -92,5 +96,18 @@ public class LoginActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(this, MainActivity.class);
 		startActivity(intent);
+	}
+
+	private String getDeviceId() {
+		return Secure.getString(getContentResolver(), Secure.ANDROID_ID);
+	}
+
+	private void register(ParseUser user) {
+//		ParseObject object = new ParseObject("info");
+//		object.put("device_id", getDeviceId());
+//		object.put("user", user);
+//		object.saveInBackground();
+		user.put("device_id", getDeviceId());
+		user.saveInBackground();
 	}
 }

@@ -55,8 +55,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		register();
-
 		PushService.subscribe(this, "all", MainActivity.class);
 		PushService.subscribe(this, "device_id" + getDeviceId(),
 				MainActivity.class);
@@ -118,31 +116,23 @@ public class MainActivity extends Activity {
 	}
 
 	private void setDeviceId() {
-		ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("info");
-		query.findInBackground(new FindCallback<ParseObject>() {
+		
+		ParseQuery<ParseUser> query = ParseUser.getQuery();
+		query.findInBackground(new FindCallback<ParseUser>() {
 			@Override
-			public void done(List<ParseObject> objects, ParseException e) {
+			public void done(List<ParseUser> users, ParseException e) {
 
-				Set<String> idSet = new HashSet<String>();
-				for (ParseObject obj : objects) {
-					if (obj.getString("device_id") != null) {
-						idSet.add(obj.getString("device_id"));
-					}
+				List<String> data = new ArrayList<String>();
+				for (ParseUser user : users) {
+					data.add(user.getUsername());
 				}
-				List<String> ids = new ArrayList<String>(idSet);
 
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 						MainActivity.this,
-						android.R.layout.simple_spinner_item, ids);
+						android.R.layout.simple_spinner_item, data);
 				spinner.setAdapter(adapter);
 			}
 		});
-	}
-
-	private void register() {
-		ParseObject object = new ParseObject("info");
-		object.put("device_id", getDeviceId());
-		object.saveInBackground();
 	}
 
 	@Override
