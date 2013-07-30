@@ -32,9 +32,9 @@ public class MyPushReceiver extends BroadcastReceiver {
 				String key = (String) itr.next();
 				Log.d(TAG, "..." + key + " => " + json.getString(key));
 			}
-			if (json.has("alert") && json.has("sender")) {
+			if (json.has("text") && json.has("sender")) {
 				TextView textView = new TextView(context);
-				String alert = json.getString("alert");
+				String alert = json.getString("text");
 				String did = json.getString("sender");
 				textView.setText("text:" + alert + " sender:" + did);
 				MainActivity.linearLayout.addView(textView);

@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 				try {
 					data.put("action", "com.example.UPDATE_STATUS");
 					data.put("sender", currentUserName);
-					data.put("alert", editText.getText().toString());
+					data.put("text", editText.getText().toString());
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
