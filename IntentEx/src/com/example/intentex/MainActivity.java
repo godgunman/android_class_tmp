@@ -2,6 +2,8 @@ package com.example.intentex;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts.People;
+import android.provider.ContactsContract;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -58,6 +60,14 @@ public class MainActivity extends Activity {
 		Uri uri = Uri.parse("smsto:" + phone);
 		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
 		intent.putExtra("sms_body", "hello world");
+		startActivity(intent);
+	}
+
+	public void clickContactButton(View view) {
+		Intent intent = new Intent(Intent.ACTION_VIEW,
+				ContactsContract.Contacts.CONTENT_URI);
+//		Intent intent = new Intent(Intent.ACTION_VIEW,
+//				People.CONTENT_URI);
 		startActivity(intent);
 	}
 }

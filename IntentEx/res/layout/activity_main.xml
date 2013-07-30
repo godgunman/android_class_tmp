@@ -58,7 +58,8 @@
         android:id="@+id/smsEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="0912123456" />
 
     <Button
         android:id="@+id/smsButton"
@@ -66,5 +67,12 @@
         android:layout_height="wrap_content"
         android:onClick="clickSmsButton"
         android:text="SMSButton" />
+
+    <Button
+        android:id="@+id/contactButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickContactButton"
+        android:text="contactButton" />
 
 </LinearLayout>
