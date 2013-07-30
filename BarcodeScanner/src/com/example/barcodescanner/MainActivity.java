@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -59,7 +60,8 @@ public class MainActivity extends Activity {
 
 	protected void openScanner() {
 		if (checkInstall() == false) {
-			downloadApk();
+			File file = downloadApk();
+			install(file);
 			return;
 		}
 		Intent intent = new Intent();
@@ -68,7 +70,16 @@ public class MainActivity extends Activity {
 		startActivityForResult(intent, BARCODE_SCANNER_CODE);
 	}
 
-	private void downloadApk() {
+	private void install(File file) {
+		Intent intent = new Intent();
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setDataAndType(Uri.fromFile(file),
+				"application/vnd.android.package-archive");
+		startActivity(intent);
+	}
+
+	private File downloadApk() {
 		String url = "https://zxing.googlecode.com/files/BarcodeScanner4.4.apk";
 		try {
 			URL apkUrl = new URL(url);
@@ -83,8 +94,8 @@ public class MainActivity extends Activity {
 				fos.write(buffer, 0, size);
 			}
 
-			File file = new File("BarcodeScanner4.4.apk");
-
+			File file = new File(getFilesDir(), "BarcodeScanner4.4.apk");
+			return file;
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,6 +103,7 @@ public class MainActivity extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override
