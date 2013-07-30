@@ -13,18 +13,21 @@
         android:id="@+id/phoneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:onClick="clickPhoneButton"
+        android:text="PhoneButton" />
 
     <Button
         android:id="@+id/webButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:onClick="clickWebButton"
+        android:text="WebButton" />
 
     <Button
         android:id="@+id/emailButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:onClick="clickEmailButton"
+        android:text="EmailButton" />
 
 </LinearLayout>
