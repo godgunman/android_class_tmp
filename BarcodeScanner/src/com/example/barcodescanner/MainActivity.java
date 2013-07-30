@@ -9,9 +9,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.util.Log;
 import android.view.Menu;
+import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -19,10 +21,17 @@ public class MainActivity extends Activity {
 	private static final int BARCODE_SCANNER_CODE = 0;
 
 	private Button button;
+	private TextView resultTextView;
+	private TextView formatTextView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		resultTextView = (TextView) findViewById(R.id.resultTextView);
+		formatTextView = (TextView) findViewById(R.id.formatTextView);
+		
 		button = (Button) findViewById(R.id.scanButton);
 		button.setOnClickListener(new OnClickListener() {
 			@Override
@@ -53,7 +62,11 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == BARCODE_SCANNER_CODE && resultCode == RESULT_OK) {
-			Log.d("debug", "done");
+			String result = data.getStringExtra("SCAN_RESULT");
+			String format = data.getStringExtra("SCAN_RESULT_FORMAT");
+			
+			resultTextView.setText(result);
+			formatTextView.setText(format);
 		}
 	}
 

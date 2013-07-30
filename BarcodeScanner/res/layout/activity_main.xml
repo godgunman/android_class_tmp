@@ -16,4 +16,22 @@
         android:layout_centerVertical="true"
         android:text="scan" />
 
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:text="result" />
+
+    <TextView
+        android:id="@+id/formatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resultTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:text="format" />
+
 </RelativeLayout>
