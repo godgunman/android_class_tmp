@@ -12,6 +12,8 @@ public class MainActivity extends Activity {
 
 	private EditText phoneEditText;
 	private EditText webEditText;
+	private EditText emailEditText;
+	private EditText smsEditText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		phoneEditText = (EditText) findViewById(R.id.phoneEditText);
 		webEditText = (EditText) findViewById(R.id.webEditText);
+		emailEditText = (EditText) findViewById(R.id.emailEditText);
+		smsEditText = (EditText) findViewById(R.id.smsEditText);
 	}
 
 	@Override
@@ -43,7 +47,17 @@ public class MainActivity extends Activity {
 	}
 
 	public void clickEmailButton(View view) {
-
+		String email = emailEditText.getText().toString();
+		Uri uri = Uri.parse("mailto:" + email);
+		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+		startActivity(intent);
 	}
 
+	public void clickSmsButton(View view) {
+		String phone = smsEditText.getText().toString();
+		Uri uri = Uri.parse("smsto:" + phone);
+		Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+		intent.putExtra("sms_body", "hello world");
+		startActivity(intent);
+	}
 }

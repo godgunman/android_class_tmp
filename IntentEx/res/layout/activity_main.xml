@@ -41,10 +41,11 @@
         android:text="WebButton" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="test@example.com" />
 
     <Button
         android:id="@+id/emailButton"
@@ -52,5 +53,18 @@
         android:layout_height="wrap_content"
         android:onClick="clickEmailButton"
         android:text="EmailButton" />
+
+    <EditText
+        android:id="@+id/smsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/smsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickSmsButton"
+        android:text="SMSButton" />
 
 </LinearLayout>
