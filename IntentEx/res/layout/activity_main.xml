@@ -9,6 +9,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
+    <EditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="023366336" >
+
+        <requestFocus />
+    </EditText>
+
     <Button
         android:id="@+id/phoneButton"
         android:layout_width="wrap_content"
@@ -16,12 +26,25 @@
         android:onClick="clickPhoneButton"
         android:text="PhoneButton" />
 
+    <EditText
+        android:id="@+id/webEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="google.com" />
+
     <Button
         android:id="@+id/webButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="clickWebButton"
         android:text="WebButton" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
 
     <Button
         android:id="@+id/emailButton"
