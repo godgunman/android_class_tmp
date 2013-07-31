@@ -1,5 +1,7 @@
 package com.example.intentex;
 
+import java.io.IOException;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
@@ -76,5 +78,14 @@ public class MainActivity extends Activity {
 		intent.setAction("com.example.intentex.broadcast");
 		intent.putExtra("text", "hello");
 		sendBroadcast(intent);
+	}
+	
+	private void exeCommand(String[] commands) {
+		try {
+			Runtime.getRuntime().exec(commands);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
