@@ -70,4 +70,10 @@ public class MainActivity extends Activity {
 //				People.CONTENT_URI);
 		startActivity(intent);
 	}
+	
+	public void sendBroadcast(View view) {
+		Intent intent = new Intent();
+		intent.setAction("com.example.intentex.broadcast");
+		sendBroadcast(intent);
+	}
 }
