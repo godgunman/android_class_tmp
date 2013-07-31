@@ -42,14 +42,15 @@ public class MainActivity extends Activity {
 
 	public void clickPhoneButton(View view) {
 		String phone = phoneEditText.getText().toString();
-		// Uri uri = Uri.parse("tel:" + phone);
+		Uri uri = Uri.parse("tel:" + phone);
 		// Intent intent = new Intent(Intent.ACTION_CALL, uri);
 		// startActivity(intent);
+		
 		String[] command = new String[] { 
 				"am", "start", 
 				"--user", "0", 
-				"-a", "android.intent.action.CALL", 
-				"-d", "tel:" + phone };
+				"-a", Intent.ACTION_CALL, 
+				"-d", uri.toString() };
 		String result = execCommand(command);
 		Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
 	}
