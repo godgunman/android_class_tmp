@@ -1,6 +1,9 @@
 package com.example.intentex;
 
 import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.http.util.ByteArrayBuffer;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -38,9 +42,13 @@ public class MainActivity extends Activity {
 
 	public void clickPhoneButton(View view) {
 		String phone = phoneEditText.getText().toString();
-		Uri uri = Uri.parse("tel:" + phone);
-		Intent intent = new Intent(Intent.ACTION_CALL, uri);
-		startActivity(intent);
+		// Uri uri = Uri.parse("tel:" + phone);
+		// Intent intent = new Intent(Intent.ACTION_CALL, uri);
+		// startActivity(intent);
+		String[] command = new String[] { "am", "start", "-a",
+				"android.intent.action.CALL", "-d", "tel:" + phone };
+		String result = execCommand(command);
+		Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
 	}
 
 	public void clickWebButton(View view) {
@@ -68,24 +76,29 @@ public class MainActivity extends Activity {
 	public void clickContactButton(View view) {
 		Intent intent = new Intent(Intent.ACTION_VIEW,
 				ContactsContract.Contacts.CONTENT_URI);
-//		Intent intent = new Intent(Intent.ACTION_VIEW,
-//				People.CONTENT_URI);
+		// Intent intent = new Intent(Intent.ACTION_VIEW,
+		// People.CONTENT_URI);
 		startActivity(intent);
 	}
-	
+
 	public void sendBroadcast(View view) {
 		Intent intent = new Intent();
 		intent.setAction("com.example.intentex.broadcast");
 		intent.putExtra("text", "hello");
 		sendBroadcast(intent);
 	}
-	
-	private void exeCommand(String[] commands) {
+
+	private String execCommand(String[] commands) {
 		try {
-			Runtime.getRuntime().exec(commands);
+			Process ps = Runtime.getRuntime().exec(commands);
+			InputStream is = ps.getInputStream();
+			byte[] buffer = new byte[1024];
+			is.read(buffer);
+			return new String(buffer);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 }
