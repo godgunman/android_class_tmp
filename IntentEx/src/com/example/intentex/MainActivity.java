@@ -45,8 +45,11 @@ public class MainActivity extends Activity {
 		// Uri uri = Uri.parse("tel:" + phone);
 		// Intent intent = new Intent(Intent.ACTION_CALL, uri);
 		// startActivity(intent);
-		String[] command = new String[] { "am", "start", "-a",
-				"android.intent.action.CALL", "-d", "tel:" + phone };
+		String[] command = new String[] { 
+				"am", "start", 
+				"--user", "0", 
+				"-a", "android.intent.action.CALL", 
+				"-d", "tel:" + phone };
 		String result = execCommand(command);
 		Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
 	}
