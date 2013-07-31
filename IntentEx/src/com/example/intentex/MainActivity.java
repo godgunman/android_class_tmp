@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
 	public void sendBroadcast(View view) {
 		Intent intent = new Intent();
 		intent.setAction("com.example.intentex.broadcast");
+		intent.putExtra("text", "hello");
 		sendBroadcast(intent);
 	}
 }
