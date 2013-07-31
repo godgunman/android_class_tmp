@@ -2,7 +2,9 @@ package com.example.screencapture;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -19,4 +21,9 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	public void sendBroadacst(View view) {
+		Intent intent = new Intent();
+		intent.setAction("com.example.screencapture.CAPTURE");
+		sendBroadcast(intent);
+	}
 }
